@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <SignUp />
+      <Login />
     </div>
   );
 }
