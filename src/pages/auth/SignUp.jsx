@@ -15,6 +15,32 @@ function SignUp() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
 
+  const checkEmailValidation = () => {
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    if (!emailRegex.test(userInputs.email)) {
+      setEmailMessage("이메일 형식이 틀렸습니다.");
+      setIsEmail(false);
+    } else {
+      setEmailMessage("올바른 형식입니다.");
+      setIsEmail(true);
+    }
+  };
+
+  const checkPasswordValidation = () => {
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if (!passwordRegex.test(userInputs.password)) {
+      setPasswordMessage(
+        "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
+      );
+      setIsPassword(false);
+    } else {
+      setPasswordMessage("안전한 비밀번호입니다.");
+      setIsPassword(true);
+    }
+  };
+
   const handleInput = useCallback(
     (e) => {
       const { name, value } = e.target;
@@ -23,27 +49,9 @@ function SignUp() {
         [name]: value,
       });
       if (name === "email") {
-        const emailRegex =
-          /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (!emailRegex.test(value)) {
-          setEmailMessage("이메일 형식이 틀렸습니다.");
-          setIsEmail(false);
-        } else {
-          setEmailMessage("올바른 형식입니다.");
-          setIsEmail(true);
-        }
+        checkEmailValidation();
       } else if (name === "password") {
-        const passwordRegex =
-          /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-        if (!passwordRegex.test(value)) {
-          setPasswordMessage(
-            "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"
-          );
-          setIsPassword(false);
-        } else {
-          setPasswordMessage("안전한 비밀번호입니다.");
-          setIsPassword(true);
-        }
+        checkPasswordValidation();
       }
     },
     [userInputs]
